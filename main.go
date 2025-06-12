@@ -86,17 +86,26 @@ func runCui() {
 }
 
 func main() {
-	mangaQuery := flag.String(searchCommand, "", "search manga based on title pattern")
+    // Declare flags
+    mangaQuery := flag.String(searchCommand, "", "search manga based on title pattern")
+    mangaId := flag.String("manga-id", "", "download/show resources of selected manga id")
+    // ... other flags ...
 
-	mangaId := flag.String("manga-id", "", "download/show resources of selected manga id")
+    // Define custom help message
+    flag.Usage = func() {
+        fmt.Println("natomanga - A terminal manga search and downloader")
+        fmt.Println("Usage:")
+        fmt.Println("  -search \"MANGA NAME\"       Search manga titles")
+        fmt.Println("  -manga-id MANGAID           View chapters for a manga")
+        fmt.Println("  -download SELECTION         Download chapters ('-', list, or range)")
+        fmt.Println("  -output PATH                Folder for downloads (default: current dir)")
+        fmt.Println("  -all-together               Download in parallel (use with caution)")
+        fmt.Println("  -ignore-errors              Continue despite errors")
+        fmt.Println("If no flags are provided, the terminal interface will open.")
+    }
 
-	downloadSelection := flag.String("download", "", "download manga chapters ('-' to download all, chapters numbers to download specific chapters, comma-separated lists or dash-ranges to perform batch download)")
-	downloadPath := flag.String("output", ".", "downloaded images will be put in this path")
+    flag.Parse()
 
-	alltogether := flag.Bool("all-together", false, "download all chapters in parallel (may lead to errors for too much requests)")
-	ignoreerrors := flag.Bool("ignore-errors", false, "ignore download errors and keep going")
-
-	flag.Parse()
 
 	// gets the Searcher for fetching
 	// data manganato
